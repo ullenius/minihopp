@@ -22,7 +22,6 @@
                 <version>3.2.2</version>
                 <configuration>
                     <webXml>src/main/web/WEB-INF/web.xml</webXml>
-                    <outputDirectory>/home/maskn/appar/wildfly-8.0.0.Final/standalone/deployments</outputDirectory>
                 </configuration>
             </plugin>
             
