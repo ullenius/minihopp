@@ -6,6 +6,7 @@ package se.anosh.minihopp.dataaccess;
  * 
  */
 
+import java.net.URL;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -39,11 +40,20 @@ public class URLdataAccessImplementation implements URLdataAccess {
         return em.find(ShortURL.class, id);
     }
     
-    @Override 
+    @Override
+    /**
+     * 
+     * TODO: Replace this with Optional<ShortURL>
+     * or throw ShortURLNotFoundException
+     */
     public ShortURL findByName(URL url) {
         
-        return null;
-        
+        Query myQuery = em.createQuery("SELECT u FROM ShortURL u WHERE u.original LIKE :param");
+        myQuery.setParameter("param", url.toString());
+        List<ShortURL> resultList = myQuery.getResultList();
+        if (resultList.isEmpty())
+            return null;
+        return resultList.get(0);
     }
 
 

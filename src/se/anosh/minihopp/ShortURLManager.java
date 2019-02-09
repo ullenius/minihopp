@@ -12,6 +12,7 @@ package se.anosh.minihopp;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
 import javax.inject.Inject;
 import se.anosh.minihopp.dataaccess.URLdataAccess;
 import se.anosh.minihopp.domain.ShortURL;
@@ -20,6 +21,7 @@ import se.anosh.minihopp.domain.ShortURL;
  *
  * @author Anosh D. Ullenius <anosh@anosh.se>
  */
+@Stateless
 public class ShortURLManager implements ShortURLService {
 
     @Inject
@@ -27,10 +29,7 @@ public class ShortURLManager implements ShortURLService {
     
     @Override
     public void addURL(URL url) {
-        
-        ShortURL mini = new ShortURL();
-        mini.setOriginal(url);
-        mini.setContent(getRandomString());
+        ShortURL mini = new ShortURL(url);
         
         dao.add(mini);
     }
@@ -41,10 +40,9 @@ public class ShortURLManager implements ShortURLService {
     }
 
     @Override
-    public URL findURL(int id) {
+    public ShortURL findURL(int id) {
         
-        ShortURL result = dao.findbyId(id);
-        return result.getOriginal();
+        return dao.findbyId(id);
     }
 
     @Override
@@ -58,12 +56,6 @@ public class ShortURLManager implements ShortURLService {
         }
         
         return allURLs;
-    }
-    
-    private String getRandomString() {
-        
-        return Long.toHexString(Double.doubleToLongBits(Math.random()));
-        
     }
     
 }
