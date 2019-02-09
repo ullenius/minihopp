@@ -13,13 +13,16 @@ import javax.jws.WebService;
  *
  * @author Anosh D. Ullenius <anosh@anosh.se>
  */
-//@Stateless
-//@WebService(name="MiniHoppWebService")
-//public class MiniHoppWebservice {
-//    
-//    @Inject
-//    private ShortURLService service;
-//    
-//    
-//}
-//
+@Stateless
+@WebService(name="MiniHoppWebService")
+public class MiniHoppWebservice {
+    
+    @Inject
+    private ShortURLService service;
+    
+    public void doStuff() {
+        
+    }
+    
+}
+

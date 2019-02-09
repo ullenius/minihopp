@@ -23,15 +23,15 @@ public class ShortURLResource {
     
     // error message in JSON-format
     final static private String ERROR_MESSAGE = "{\"error\":\"invalid URL\"}";
-    @Inject
-    private ShortURLService service;
+//    @Inject
+//    private ShortURLService service;
     
     
     @GET
     @Produces({"application/JSON"})
     public Response getNoArgument() {
         
-        return Response.status(204).build();
+        return Response.ok(new String("hellO!")).build();
     }
     
     
