@@ -6,16 +6,18 @@ package se.anosh.minihopp.dataaccess;
  * 
  */
 
-import java.net.URL;
 import java.util.List;
-import java.net.URL;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import se.anosh.minihopp.domain.ShortURL;
 
 /**
  *
  * @author Anosh D. Ullenius <anosh@anosh.se>
  */
+@Stateless
 public class URLdataAccessImplementation implements URLdataAccess {
 
     @PersistenceContext
@@ -23,33 +25,33 @@ public class URLdataAccessImplementation implements URLdataAccess {
     
     @Override
     public void remove(int id) {
-        
         em.remove(id);
     }
 
     @Override
-    public void add(URL newURL) {
-        em.persist(newURL);
+    public void add(ShortURL url) {
+        em.persist(url);
     }
 
     @Override
-    public void insert(URL newUrl) {
+    public ShortURL findbyId(int id) {
+        
+        return em.find(ShortURL.class, id);
+    }
+    
+    @Override 
+    public ShortURL findByName(URL url) {
+        
+        return null;
         
     }
 
-    @Override
-    public URL findbyId(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
-    public URL findByName(String name) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<URL> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<ShortURL> findAll() {
+        
+        Query myQuery = em.createQuery("SELECT s FROM ShortURL s");
+        return myQuery.getResultList();
     }
 
 }
