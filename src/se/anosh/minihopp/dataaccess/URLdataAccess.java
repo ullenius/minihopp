@@ -10,7 +10,7 @@ import java.util.List;
 public interface URLdataAccess {
     
     public void remove(int id);
-    public void add();
+    public void add(URL newURL);
     public void insert(URL newUrl);
     public URL findbyId(int id);
     public URL findByName(String name);

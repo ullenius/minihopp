@@ -24,17 +24,17 @@ public class URLdataAccessImplementation implements URLdataAccess {
     @Override
     public void remove(int id) {
         
-        
+        em.remove(id);
     }
 
     @Override
-    public void add() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void add(URL newURL) {
+        em.persist(newURL);
     }
 
     @Override
     public void insert(URL newUrl) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
