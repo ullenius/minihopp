@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -27,26 +28,26 @@ public class ShortURL {
     private int path; // this value is set by the database
     
     @XmlElement(name = "original_url")
-    private URL original;
+    private String original;
 
     public ShortURL() { // empty constructor required by JPA
         
     }
     
     public ShortURL(URL urlToShorten) {
-        original = urlToShorten;
+        original = urlToShorten.toString();
     }
 
     public int getPath() {
         return path;
     }
 
-    public URL getOriginal() {
+    public String getOriginal() {
         return original;
     }
 
     public void setOriginal(URL original) {
-        this.original = original;
+        this.original = original.toString();
     }
     
 }

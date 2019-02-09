@@ -9,7 +9,6 @@ import se.anosh.minihopp.domain.ShortURL;
  *
  * @author Anosh D. Ullenius <anosh@anosh.se>
  */
-@Remote
 public interface ShortURLService {
     
     void addURL(URL url); // we want to give back the user a JSON

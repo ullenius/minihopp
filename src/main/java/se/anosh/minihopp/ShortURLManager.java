@@ -9,9 +9,12 @@
  */
 package se.anosh.minihopp;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import se.anosh.minihopp.dataaccess.URLdataAccess;
@@ -46,16 +49,33 @@ public class ShortURLManager implements ShortURLService {
     }
 
     @Override
+    /**
+     * 
+     * This is a horrible mess.
+     */
     public List<URL> listAllURLs() {
         
         List<ShortURL> allShortOnes = dao.findAll();
-        List<URL> allURLs = new ArrayList<>();
+        List<String> allURLs = new ArrayList<>();
         
         for (ShortURL mini : allShortOnes) {
             allURLs.add(mini.getOriginal());
         }
-        
-        return allURLs;
+       
+        // create URL objects
+       List<URL> realURLs = new ArrayList<>();
+       
+       for (String s : allURLs) {
+            try {
+                realURLs.add(new URL(s));
+            } catch (MalformedURLException ex) {
+               ex.printStackTrace();
+            }
+           
+       }
+       return realURLs;
+       
+       
     }
     
 }

@@ -9,6 +9,7 @@ package se.anosh.minihopp.dataaccess;
 import java.net.URL;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -19,6 +20,7 @@ import se.anosh.minihopp.domain.ShortURL;
  * @author Anosh D. Ullenius <anosh@anosh.se>
  */
 @Stateless
+@Default
 public class URLdataAccessImplementation implements URLdataAccess {
 
     @PersistenceContext
@@ -46,7 +48,7 @@ public class URLdataAccessImplementation implements URLdataAccess {
      * TODO: Replace this with Optional<ShortURL>
      * or throw ShortURLNotFoundException
      */
-    public ShortURL findByName(URL url) {
+    public ShortURL findByName(String url) {
         
         Query myQuery = em.createQuery("SELECT u FROM ShortURL u WHERE u.original LIKE :param");
         myQuery.setParameter("param", url.toString());
