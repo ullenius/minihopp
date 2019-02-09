@@ -13,9 +13,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import se.anosh.minihopp.dataaccess.URLdataAccess;
 import se.anosh.minihopp.domain.ShortURL;
@@ -24,6 +23,7 @@ import se.anosh.minihopp.domain.ShortURL;
  *
  * @author Anosh D. Ullenius <anosh@anosh.se>
  */
+@Default
 @Stateless
 public class ShortURLManager implements ShortURLService {
 

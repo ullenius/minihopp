@@ -6,7 +6,6 @@ package se.anosh.minihopp.dataaccess;
  * 
  */
 
-import java.net.URL;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
@@ -19,8 +18,8 @@ import se.anosh.minihopp.domain.ShortURL;
  *
  * @author Anosh D. Ullenius <anosh@anosh.se>
  */
-@Stateless
 @Default
+@Stateless
 public class URLdataAccessImplementation implements URLdataAccess {
 
     @PersistenceContext

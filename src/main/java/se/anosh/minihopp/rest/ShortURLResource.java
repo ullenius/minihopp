@@ -7,14 +7,11 @@ package se.anosh.minihopp.rest;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import se.anosh.minihopp.ShortURLService;
-import se.anosh.minihopp.domain.ShortURL;
 
 /**
  *
@@ -25,26 +22,34 @@ import se.anosh.minihopp.domain.ShortURL;
 public class ShortURLResource {
     
     // error message in JSON-format
-    final private String ERROR_MESSAGE = "{\"error\":\"invalid URL\"}";
+    final static private String ERROR_MESSAGE = "{\"error\":\"invalid URL\"}";
     @Inject
     private ShortURLService service;
     
     
     @GET
     @Produces({"application/JSON"})
-    @Path("{shortURL}")
-    public Response getRedirect(@PathParam("shortURL")@DefaultValue("-1") int shortURL) {
+    public Response getNoArgument() {
         
-        if (shortURL == -1)
-            return Response.ok(ERROR_MESSAGE).build();
-        
-        ShortURL result = service.findURL(shortURL);
-        
-        if (result == null)
-            return Response.ok(ERROR_MESSAGE).build();
-        
-        return Response.ok(result).build();
-        
+        return Response.status(204).build();
     }
+    
+    
+    
+    
+    
+//    @GET
+//    @Produces({"application/JSON"})
+//    @Path("{shortURL}")
+//    public Response getRedirect(@PathParam("shortURL") Integer shortURL) {
+//        
+//        if (shortURL == null)
+//            return Response.ok(ERROR_MESSAGE).build();
+//        
+//        ShortURL result = service.findURL(shortURL);
+//        return Response.ok(result).build();
+//        
+//    }
+
     
 }

@@ -1,12 +1,12 @@
 package se.anosh.minihopp.domain;
 
+import java.io.Serializable;
 import java.net.URL;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
-public class ShortURL {
+public class ShortURL implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,6 +48,14 @@ public class ShortURL {
 
     public void setOriginal(URL original) {
         this.original = original.toString();
+    }
+
+    public void setPath(int path) {
+        this.path = path;
+    }
+
+    public void setOriginal(String original) {
+        this.original = original;
     }
     
 }
