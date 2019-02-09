@@ -2,6 +2,7 @@ package se.anosh.minihopp;
 
 import java.net.URL;
 import java.util.List;
+import javax.ejb.Local;
 import javax.ejb.Remote;
 import se.anosh.minihopp.domain.ShortURL;
 
