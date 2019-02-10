@@ -43,7 +43,7 @@ public class ShortURLResource {
     @GET
     @Produces({"application/JSON"})
     @Path("{shortURL}")
-    public Response getRedirect(@PathParam("shortURL") Integer shortURL) {
+    public Response getRedirect(@PathParam("shortURL") int shortURL) {
         
         try {
             ShortURL result = service.findURL(shortURL);
@@ -51,8 +51,6 @@ public class ShortURLResource {
         } catch (ShortURLNotFoundException ex) {
             return Response.ok(ERROR_MESSAGE).build();
         }
-        
-       
         
     }
     
