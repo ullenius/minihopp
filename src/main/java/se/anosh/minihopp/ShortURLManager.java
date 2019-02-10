@@ -77,5 +77,19 @@ public class ShortURLManager implements ShortURLService {
        
        
     }
+
+    /**
+     * Returns the short-form URL based on the long URL
+     * This call is used when creating new entries in the
+     * database in order to return a JSON to the client
+     * sending the POST-request
+     * 
+     * @param url
+     * @return 
+     */
+    @Override
+    public ShortURL findShortURLName(String url) {
+        return dao.findByName(url);
+    }
     
 }

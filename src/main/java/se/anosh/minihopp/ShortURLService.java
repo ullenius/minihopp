@@ -16,4 +16,5 @@ public interface ShortURLService {
     public void deleteURL(int id);
     public ShortURL findURL(int id); // in the prototype-versionen
     public List<URL> listAllURLs(); // debug method?
+    public ShortURL findShortURLName(String url);
 }

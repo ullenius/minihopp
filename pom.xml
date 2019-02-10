@@ -21,7 +21,6 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-<!--                    <webXml>src/main/web/WEB-INF/web.xml</webXml>-->
                       <failOnMissingWebXml>false</failOnMissingWebXml>
                     <outputDirectory>/home/maskn/appar/wildfly-8.0.0.Final/standalone/deployments</outputDirectory>
                 </configuration>
@@ -46,7 +45,7 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-jaxrs</artifactId>
-            <version>3.0.6.Final</version>
+            <version>3.6.2.Final</version>
             <scope>provided</scope>
         </dependency>
 
