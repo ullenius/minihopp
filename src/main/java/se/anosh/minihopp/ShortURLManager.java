@@ -34,7 +34,6 @@ public class ShortURLManager implements ShortURLService {
     @Override
     public void addURL(URL url) {
         ShortURL mini = new ShortURL(url);
-        
         dao.add(mini);
     }
 

@@ -6,7 +6,11 @@
 package se.anosh.minihopp.rest;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -15,6 +19,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import se.anosh.minihopp.ShortURLService;
 import se.anosh.minihopp.dataaccess.ShortURLNotFoundException;
@@ -47,15 +52,31 @@ public class ShortURLResource {
         
         try {
             ShortURL result = service.findURL(shortURL);
-            return Response.ok(result).build();
+            //return Response.ok(result).build(); // returnerar JSON-objektet
+            URI uri = new URI(result.getOriginal());
+            return Response.seeOther(uri).build();
+            
         } catch (ShortURLNotFoundException ex) {
+            return Response.ok(ERROR_MESSAGE).build();
+        } catch (URISyntaxException ex) {
             return Response.ok(ERROR_MESSAGE).build();
         }
         
+        
     }
     
+    /**
+     * 
+     * Acceps a String as POST-input
+     * returns a JSON-object of type ShortURL
+     * 
+     * @param url
+     * @return
+     * @throws MalformedURLException 
+     */
     @POST
-    @Consumes({"application/JSON"})
+    @Produces({"application/JSON"})
+    @Consumes(MediaType.TEXT_PLAIN)
     public Response postURL(String url) throws MalformedURLException {
         
         // Checks if the URL is valid, if so adds it to the database
