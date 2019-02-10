@@ -17,6 +17,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import se.anosh.minihopp.ShortURLService;
+import se.anosh.minihopp.dataaccess.ShortURLNotFoundException;
 import se.anosh.minihopp.domain.ShortURL;
 
 /**
@@ -36,8 +37,7 @@ public class ShortURLResource {
     @GET
     @Produces({"application/JSON"})
     public Response getNoArgument() {
-        
-        return Response.ok(ERROR_MESSAGE).build();
+        return Response.status(404).build(); // not found
     }
     
     @GET
@@ -45,11 +45,14 @@ public class ShortURLResource {
     @Path("{shortURL}")
     public Response getRedirect(@PathParam("shortURL") Integer shortURL) {
         
-        if (shortURL == null)
+        try {
+            ShortURL result = service.findURL(shortURL);
+            return Response.ok(result).build();
+        } catch (ShortURLNotFoundException ex) {
             return Response.ok(ERROR_MESSAGE).build();
+        }
         
-        ShortURL result = service.findURL(shortURL);
-        return Response.ok(result).build();
+       
         
     }
     

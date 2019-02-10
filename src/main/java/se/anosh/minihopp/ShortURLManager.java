@@ -16,6 +16,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import se.anosh.minihopp.dataaccess.ShortURLNotFoundException;
 import se.anosh.minihopp.dataaccess.URLdataAccess;
 import se.anosh.minihopp.domain.ShortURL;
 
@@ -43,7 +44,7 @@ public class ShortURLManager implements ShortURLService {
     }
 
     @Override
-    public ShortURL findURL(int id) {
+    public ShortURL findURL(int id) throws ShortURLNotFoundException {
         
         return dao.findbyId(id);
     }

@@ -36,9 +36,13 @@ public class URLdataAccessImplementation implements URLdataAccess {
     }
 
     @Override
-    public ShortURL findbyId(int id) {
+    public ShortURL findbyId(int id) throws ShortURLNotFoundException {
         
-        return em.find(ShortURL.class, id);
+        ShortURL result = em.find(ShortURL.class,id);
+        if (result == null)
+            throw new ShortURLNotFoundException("URL: " + id + " was not found in database");
+        
+        return result;
     }
     
     @Override

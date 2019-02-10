@@ -13,7 +13,7 @@ public interface URLdataAccess {
     
     public void remove(int id);
     public void add(ShortURL newURL);
-    public ShortURL findbyId(int id);
+    public ShortURL findbyId(int id) throws ShortURLNotFoundException;
     public ShortURL findByName(String url);
     public List<ShortURL> findAll();
 }
