@@ -14,6 +14,6 @@ public interface ShortURLService {
     void addURL(URL url); // we want to give back the user a JSON
     public void deleteURL(int id);
     public ShortURL findURL(int id) throws ShortURLNotFoundException; // in the prototype-versionen
-    public List<URL> listAllURLs(); // debug method?
+    public List<ShortURL> listAllURLs(); // debug method?
     public ShortURL findShortURLName(String url);
 }
