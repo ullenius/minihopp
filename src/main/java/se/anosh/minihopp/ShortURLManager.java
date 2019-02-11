@@ -30,10 +30,6 @@ public class ShortURLManager implements ShortURLService {
     @Inject
     URLdataAccess dao;
     
-    public ShortURLManager() {
-        Objects.requireNonNull(dao); //asserts the dependency injection
-    }
-    
     @Override
     public void addURL(URL url) {
         ShortURL mini = new ShortURL(url);
