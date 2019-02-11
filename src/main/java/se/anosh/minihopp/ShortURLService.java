@@ -1,5 +1,6 @@
 package se.anosh.minihopp;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import se.anosh.minihopp.dataaccess.ShortURLNotFoundException;

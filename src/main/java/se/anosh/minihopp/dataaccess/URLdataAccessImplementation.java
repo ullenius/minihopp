@@ -54,7 +54,7 @@ public class URLdataAccessImplementation implements URLdataAccess {
     public ShortURL findByName(String url) {
         
         Query myQuery = em.createQuery("SELECT u FROM ShortURL u WHERE u.original LIKE :param");
-        myQuery.setParameter("param", url.toString());
+        myQuery.setParameter("param", url);
         List<ShortURL> resultList = myQuery.getResultList();
         if (resultList.isEmpty())
             return null;
