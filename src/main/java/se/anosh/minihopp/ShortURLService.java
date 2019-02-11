@@ -11,9 +11,9 @@ import se.anosh.minihopp.domain.ShortURL;
  */
 public interface ShortURLService {
     
-    void addURL(URL url); // we want to give back the user a JSON
+    public void addURL(URL url);
     public void deleteURL(int id);
-    public ShortURL findURL(int id) throws ShortURLNotFoundException; // in the prototype-versionen
+    public ShortURL findURL(int id) throws ShortURLNotFoundException;
     public List<ShortURL> listAllURLs(); // debug method?
     public ShortURL findShortURLName(String url);
 }
