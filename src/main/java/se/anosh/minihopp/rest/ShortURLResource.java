@@ -9,8 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -52,7 +50,6 @@ public class ShortURLResource {
         
         try {
             ShortURL result = service.findURL(shortURL);
-            //return Response.ok(result).build(); // returnerar JSON-objektet
             URI uri = new URI(result.getOriginal());
             return Response.seeOther(uri).build();
             
@@ -61,8 +58,6 @@ public class ShortURLResource {
         } catch (URISyntaxException ex) {
             return Response.ok(ERROR_MESSAGE).build();
         }
-        
-        
     }
     
     /**
