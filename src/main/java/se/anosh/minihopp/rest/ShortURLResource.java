@@ -53,9 +53,7 @@ public class ShortURLResource {
             URI uri = new URI(result.getOriginal());
             return Response.seeOther(uri).build();
             
-        } catch (ShortURLNotFoundException ex) {
-            return Response.ok(ERROR_MESSAGE).build();
-        } catch (URISyntaxException ex) {
+        } catch (ShortURLNotFoundException | URISyntaxException ex) {
             return Response.ok(ERROR_MESSAGE).build();
         }
     }
