@@ -14,5 +14,9 @@ public class ShortURLNotFoundException extends Exception {
         super(message);
     }
     
+    public ShortURLNotFoundException(final String message, Throwable cause) {
+        super(message,cause);
+    }
+    
     
 }
