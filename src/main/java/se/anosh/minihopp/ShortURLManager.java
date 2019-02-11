@@ -16,8 +16,8 @@ import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import se.anosh.minihopp.dataaccess.ShortURLNotFoundException;
-import se.anosh.minihopp.dataaccess.URLdataAccess;
 import se.anosh.minihopp.domain.ShortURL;
+import se.anosh.minihopp.dataaccess.URLDataAccess;
 
 /**
  *
@@ -28,7 +28,7 @@ import se.anosh.minihopp.domain.ShortURL;
 public class ShortURLManager implements ShortURLService {
 
     @Inject
-    URLdataAccess dao;
+    URLDataAccess dao;
     
     @Override
     public void addURL(URL url) {

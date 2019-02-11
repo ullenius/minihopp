@@ -20,7 +20,7 @@ import se.anosh.minihopp.domain.ShortURL;
  */
 @Default
 @Stateless
-public class URLdataAccessImplementation implements URLdataAccess {
+public class URLDataAccessImplementation implements URLDataAccess {
 
     @PersistenceContext
     private EntityManager em;

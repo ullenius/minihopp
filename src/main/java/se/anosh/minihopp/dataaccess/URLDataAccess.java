@@ -9,7 +9,7 @@ import se.anosh.minihopp.domain.ShortURL;
  * @author Anosh D. Ullenius <anosh@anosh.se>
  */
 @Local
-public interface URLdataAccess {
+public interface URLDataAccess {
     
     public void remove(int id);
     public void add(ShortURL newURL);
