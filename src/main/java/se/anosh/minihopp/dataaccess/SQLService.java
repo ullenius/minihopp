@@ -6,6 +6,7 @@ package se.anosh.minihopp.dataaccess;
  * 
  */
 
+import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
@@ -13,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import se.anosh.minihopp.domain.ShortURL;
+import se.anosh.minihopp.dataaccess.api.ShortURLDataAccess;
 
 /**
  *
@@ -20,7 +22,7 @@ import se.anosh.minihopp.domain.ShortURL;
  */
 @Default
 @Stateless
-public class URLDataAccessImplementation implements URLDataAccess {
+public class SQLService implements ShortURLDataAccess {
 
     @PersistenceContext
     private EntityManager em;
