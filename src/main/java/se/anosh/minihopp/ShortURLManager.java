@@ -7,6 +7,7 @@
  */
 package se.anosh.minihopp;
 
+import se.anosh.minihopp.api.ShortURLService;
 import java.net.URL;
 import java.util.List;
 import javax.ejb.Stateless;

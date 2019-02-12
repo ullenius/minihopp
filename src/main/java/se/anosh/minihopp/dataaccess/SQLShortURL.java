@@ -22,7 +22,7 @@ import se.anosh.minihopp.dataaccess.api.ShortURLDataAccess;
  */
 @Default
 @Stateless
-public class SQLService implements ShortURLDataAccess {
+public class SQLShortURL implements ShortURLDataAccess {
 
     @PersistenceContext
     private EntityManager em;

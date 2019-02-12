@@ -20,7 +20,7 @@ import se.anosh.minihopp.dataaccess.api.ShortURLDataAccess;
  */
 @Alternative
 @Stateless
-public class RedisService implements ShortURLDataAccess {
+public class RedisShortURL implements ShortURLDataAccess {
     
 
     @Override

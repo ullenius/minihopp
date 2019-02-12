@@ -19,7 +19,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import se.anosh.minihopp.ShortURLService;
+import se.anosh.minihopp.api.ShortURLService;
 import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import se.anosh.minihopp.domain.ShortURL;
 

@@ -1,4 +1,4 @@
-package se.anosh.minihopp;
+package se.anosh.minihopp.api;
 
 import java.net.URL;
 import java.util.List;
