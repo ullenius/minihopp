@@ -53,13 +53,13 @@ public class SQLShortURL implements ShortURLDataAccess {
      * TODO: Replace this with Optional<ShortURL>
      * or throw ShortURLNotFoundException
      */
-    public ShortURL findByName(String url) {
+    public ShortURL findByName(String url) throws ShortURLNotFoundException {
         
         Query myQuery = em.createQuery("SELECT u FROM ShortURL u WHERE u.original LIKE :param");
         myQuery.setParameter("param", url);
         List<ShortURL> resultList = myQuery.getResultList();
         if (resultList.isEmpty())
-            return null;
+            throw new ShortURLNotFoundException("URL with name: " + url + " was not found in database");
         return resultList.get(0);
     }
 

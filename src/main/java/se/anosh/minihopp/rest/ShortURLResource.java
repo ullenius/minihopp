@@ -70,7 +70,7 @@ public class ShortURLResource {
     @POST
     @Produces({"application/JSON"})
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response postURL(String url) throws MalformedURLException {
+    public Response postURL(String url) {
         
         // Checks if the URL is valid, if so adds it to the database
         // Need to add checking if it already exists
@@ -80,6 +80,13 @@ public class ShortURLResource {
             return Response.ok(service.findShortURLName(url)).build();
         } catch (MalformedURLException ex) {
             return Response.ok(ERROR_MESSAGE).build();
+        }
+        catch (ShortURLNotFoundException eu) {
+            // something went terribly wrong
+            // we added the url but we can't find it when fetching it from
+            // the database. 500 - internal server error
+            return Response.status(500).build(); 
+            
         }
         
         

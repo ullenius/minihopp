@@ -15,5 +15,5 @@ public interface ShortURLService {
     public void deleteURL(int id);
     public ShortURL findURL(int id) throws ShortURLNotFoundException;
     public List<ShortURL> listAllURLs(); // debug method?
-    public ShortURL findShortURLName(String url);
+    public ShortURL findShortURLName(String url) throws ShortURLNotFoundException;
 }

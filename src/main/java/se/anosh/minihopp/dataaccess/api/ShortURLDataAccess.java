@@ -15,6 +15,6 @@ public interface ShortURLDataAccess {
     public void remove(int id);
     public void add(ShortURL newURL);
     public ShortURL findbyId(int id) throws ShortURLNotFoundException;
-    public ShortURL findByName(String url);
+    public ShortURL findByName(String url) throws ShortURLNotFoundException;
     public List<ShortURL> findAll();
 }

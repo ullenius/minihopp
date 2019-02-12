@@ -62,7 +62,7 @@ public class ShortURLManager implements ShortURLService {
      * @return 
      */
     @Override
-    public ShortURL findShortURLName(String url) {
+    public ShortURL findShortURLName(String url) throws ShortURLNotFoundException {
         return dao.findByName(url);
     }
     
