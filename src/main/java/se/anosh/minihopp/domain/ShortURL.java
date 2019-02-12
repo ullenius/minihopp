@@ -69,9 +69,5 @@ public class ShortURL implements Serializable {
         final ShortURL other = (ShortURL) obj;
         return (this.original.equalsIgnoreCase(other.getOriginal()));
     }
-
-    
-    
-    
     
 }

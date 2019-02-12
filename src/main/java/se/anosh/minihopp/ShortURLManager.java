@@ -1,15 +1,12 @@
 /**
  * 
  * This is where the magic happens
- * 
- * random generation of strings (not in beta version)
  * creating ShortURL-objects etc...
  * 
  * 
  */
 package se.anosh.minihopp;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -52,11 +49,14 @@ public class ShortURLManager implements ShortURLService {
     }
 
     /**
-     * Returns the short-form URL based on the long URL
-     * This call is used when creating new entries in the
-     * database in order to return a JSON to the client
-     * sending the POST-request
      * 
+     * Reverse name lookup. For where you have the long
+     * URL (of an existing entry) but not the shorthand-version.
+     * 
+     * This is used mainly by the REST-service layer when
+     * creating new entries and returning a JSON-object to
+     * the client.
+
      * @param url
      * @return 
      */
