@@ -54,7 +54,7 @@ public class ShortURLResource {
             return Response.seeOther(uri).build();
             
         } catch (ShortURLNotFoundException | URISyntaxException ex) {
-            return Response.ok(ERROR_MESSAGE).build();
+            return Response.status(400).entity(ERROR_MESSAGE).build();
         }
     }
     
@@ -79,7 +79,7 @@ public class ShortURLResource {
             service.addURL(address);
             return Response.ok(service.findShortURLName(url)).build();
         } catch (MalformedURLException ex) {
-            return Response.ok(ERROR_MESSAGE).build();
+            return Response.status(400).entity(ERROR_MESSAGE).build();
         }
         catch (ShortURLNotFoundException eu) {
             // something went terribly wrong
