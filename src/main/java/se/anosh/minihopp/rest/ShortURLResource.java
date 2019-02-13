@@ -37,13 +37,23 @@ public class ShortURLResource {
     @Inject
     private ShortURLService service;
     
-    
+    /**
+     * 
+     * @return 
+     */
     @GET
     @Produces({"application/JSON"})
     public Response getNoArgument() {
-        return Response.status(404).build(); // not found
+        return Response.status(400).entity(new ErrorMessage("no URL provided")).build();
     }
     
+    /**
+     * Returns full URL as HTTP-redirect Response-object
+     * based on path-parameter obtained from user.
+     * 
+     * @param shortURL
+     * @return 
+     */
     @GET
     @Produces({"application/JSON"})
     @Path("{shortURL}")
@@ -55,7 +65,7 @@ public class ShortURLResource {
             return Response.seeOther(uri).build();
             
         } catch (ShortURLNotFoundException ex) {
-            return Response.status(400).entity(new ErrorMessage("invalid URL")).build();
+            return Response.status(404).entity(new ErrorMessage("Short URL not found")).build();
         } catch (URISyntaxException er) {
              //URI stored in database is invalid, data is corrupted
             return Response.status(500).entity(new ErrorMessage("database corrupted")).build();
@@ -69,7 +79,6 @@ public class ShortURLResource {
      * 
      * @param url
      * @return
-     * @throws MalformedURLException 
      */
     @POST
     @Produces({"application/JSON"})
@@ -95,6 +104,14 @@ public class ShortURLResource {
         
     }
     
+    /**
+     * This class' sole purpose is to contain
+     * an error String. Then the whole object
+     * is converted into XML or JSON by JAX-RS.
+     * 
+     * Rather than having to hard-code JSON
+     * or XML
+     */
     @XmlRootElement
     private class ErrorMessage {
         
@@ -102,6 +119,10 @@ public class ShortURLResource {
         final private String message;
         public ErrorMessage(String message) {
             this.message = message;
+        }
+        @Override
+        public String toString() {
+            return "message: " + message;
         }
     }
     
