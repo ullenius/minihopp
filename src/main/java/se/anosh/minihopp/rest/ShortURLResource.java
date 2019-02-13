@@ -9,6 +9,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Objects;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -65,7 +66,7 @@ public class ShortURLResource {
             return Response.seeOther(uri).build();
             
         } catch (ShortURLNotFoundException ex) {
-            return Response.status(404).entity(new ErrorMessage("Short URL not found")).build();
+            return Response.status(404).entity(new ErrorMessage("URL not found")).build();
         } catch (URISyntaxException er) {
              //URI stored in database is invalid, data is corrupted
             return Response.status(500).entity(new ErrorMessage("database corrupted")).build();
@@ -110,7 +111,9 @@ public class ShortURLResource {
      * is converted into XML or JSON by JAX-RS.
      * 
      * Rather than having to hard-code JSON
-     * or XML
+     * or XML.
+     * 
+     * This class is immutable by using dependency injection.
      */
     @XmlRootElement
     private class ErrorMessage {
@@ -118,7 +121,7 @@ public class ShortURLResource {
         @XmlElement(name = "error")
         final private String message;
         public ErrorMessage(String message) {
-            this.message = message;
+            this.message = Objects.requireNonNull(message);
         }
         @Override
         public String toString() {
