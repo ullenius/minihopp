@@ -5,9 +5,8 @@
  * 
  * 
  */
-package se.anosh.minihopp;
+package se.anosh.minihopp.controller;
 
-import se.anosh.minihopp.api.ShortURLService;
 import java.net.URL;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -23,7 +22,7 @@ import se.anosh.minihopp.dataaccess.api.ShortURLDataAccess;
  */
 @Default
 @Stateless
-public class ShortURLManager implements ShortURLService {
+public class ShortURLController implements ShortURLService {
 
     @Inject
     ShortURLDataAccess dao;
