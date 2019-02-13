@@ -19,6 +19,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import se.anosh.minihopp.api.ShortURLService;
 import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import se.anosh.minihopp.domain.ShortURL;
@@ -31,8 +33,7 @@ import se.anosh.minihopp.domain.ShortURL;
 @Path("/minihopp")
 public class ShortURLResource {
     
-    // error message in JSON-format
-    final static private String ERROR_MESSAGE = "{\"error\":\"invalid URL\"}";
+    
     @Inject
     private ShortURLService service;
     
@@ -53,8 +54,11 @@ public class ShortURLResource {
             URI uri = new URI(result.getOriginal());
             return Response.seeOther(uri).build();
             
-        } catch (ShortURLNotFoundException | URISyntaxException ex) {
-            return Response.status(400).entity(ERROR_MESSAGE).build();
+        } catch (ShortURLNotFoundException ex) {
+            return Response.status(400).entity(new ErrorMessage("invalid URL")).build();
+        } catch (URISyntaxException er) {
+             //URI stored in database is invalid, data is corrupted
+            return Response.status(500).entity(new ErrorMessage("database corrupted")).build();
         }
     }
     
@@ -79,19 +83,26 @@ public class ShortURLResource {
             service.addURL(address);
             return Response.ok(service.findShortURLName(url)).build();
         } catch (MalformedURLException ex) {
-            return Response.status(400).entity(ERROR_MESSAGE).build();
+            return Response.status(400).entity(new ErrorMessage("invalid URL")).build();
         }
         catch (ShortURLNotFoundException eu) {
             // something went terribly wrong
             // we added the url but we can't find it when fetching it from
             // the database. 500 - internal server error
-            return Response.status(500).build(); 
-            
+            return Response.status(500).entity(new ErrorMessage("database corrupted")).build(); 
         }
         
         
     }
     
-
+    @XmlRootElement
+    private class ErrorMessage {
+        
+        @XmlElement(name = "error")
+        final private String message;
+        public ErrorMessage(String message) {
+            this.message = message;
+        }
+    }
     
 }
