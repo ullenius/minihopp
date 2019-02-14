@@ -34,6 +34,11 @@ import se.anosh.minihopp.domain.ShortURL;
 @Path("/minihopp")
 public class ShortURLResource {
     
+    // HTTP-status codes
+    private static final int BAD_REQUEST = 400;
+    private static final int NOT_FOUND = 404;
+    private static final int INTERNAL_SERVER_ERROR = 500;
+    
     
     @Inject
     private ShortURLService service;
@@ -45,7 +50,7 @@ public class ShortURLResource {
     @GET
     @Produces({"application/JSON"})
     public Response getNoArgument() {
-        return Response.status(400).entity(new ErrorMessage("no URL provided")).build();
+        return Response.status(BAD_REQUEST).entity(new ErrorMessage("no URL provided")).build();
     }
     
     /**
@@ -66,10 +71,10 @@ public class ShortURLResource {
             return Response.seeOther(uri).build();
             
         } catch (ShortURLNotFoundException ex) {
-            return Response.status(404).entity(new ErrorMessage("URL not found")).build();
+            return Response.status(NOT_FOUND).entity(new ErrorMessage("URL not found")).build();
         } catch (URISyntaxException er) {
              //URI stored in database is invalid, data is corrupted
-            return Response.status(500).entity(new ErrorMessage("database corrupted")).build();
+            return Response.status(INTERNAL_SERVER_ERROR).entity(new ErrorMessage("database corrupted")).build();
         }
     }
     
@@ -93,13 +98,13 @@ public class ShortURLResource {
             service.addURL(address);
             return Response.ok(service.findShortURLName(url)).build();
         } catch (MalformedURLException ex) {
-            return Response.status(400).entity(new ErrorMessage("invalid URL")).build();
+            return Response.status(BAD_REQUEST).entity(new ErrorMessage("invalid URL")).build();
         }
         catch (ShortURLNotFoundException eu) {
             // something went terribly wrong
             // we added the url but we can't find it when fetching it from
             // the database. 500 - internal server error
-            return Response.status(500).entity(new ErrorMessage("database corrupted")).build(); 
+            return Response.status(INTERNAL_SERVER_ERROR).entity(new ErrorMessage("database corrupted")).build(); 
         }
         
         
