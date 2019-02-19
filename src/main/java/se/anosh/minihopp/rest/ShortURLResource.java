@@ -8,7 +8,6 @@ package se.anosh.minihopp.rest;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Objects;
 import java.util.Optional;
 import javax.ejb.Stateless;
@@ -75,7 +74,7 @@ public class ShortURLResource {
             return Response.status(NOT_FOUND).entity(new ErrorMessage("URL not found")).build();
         } catch (URISyntaxException er) {
              //URI stored in database is invalid, data is corrupted
-            return Response.status(INTERNAL_SERVER_ERROR).entity(new ErrorMessage("database corrupted")).build();
+            return Response.status(INTERNAL_SERVER_ERROR).entity(new ErrorMessage("Database corrupted")).build();
         }
     }
     

@@ -76,6 +76,8 @@ public class RedisTests {
         
         List<ShortURL> listOfAll = resource.findAll();
         System.out.println("Running testFindAllShortURLsInDatabase:");
+        
+        listOfAll.sort(null);
         for (ShortURL url : listOfAll)
             System.out.println(url);
         

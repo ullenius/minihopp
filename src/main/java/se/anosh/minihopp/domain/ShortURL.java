@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
-public class ShortURL implements Serializable {
+public class ShortURL implements Serializable, Comparable<ShortURL> {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,7 +38,6 @@ public class ShortURL implements Serializable {
     }
     
     public ShortURL(String url) throws MalformedURLException {
-        
        URL checkValidFormat = new URL(url); 
        longFormatURL = url;
     }
@@ -93,6 +92,11 @@ public class ShortURL implements Serializable {
     @Override
     public String toString() {
         return "ShortURL{" + "path=" + path + ", original=" + longFormatURL + '}';
+    }
+
+    @Override
+    public int compareTo(ShortURL t) {
+        return longFormatURL.compareTo(t.getLongFormatURL());
     }
     
     
