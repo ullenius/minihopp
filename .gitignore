@@ -58,3 +58,4 @@ pom.xml.tag
 #files created by libreoffice
 *.odt
 .~lock.*
+/nbproject/
