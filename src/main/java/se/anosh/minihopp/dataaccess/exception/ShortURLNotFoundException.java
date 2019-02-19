@@ -1,4 +1,4 @@
-package se.anosh.minihopp.dataaccess;
+package se.anosh.minihopp.dataaccess.exception;
 
 /**
  *

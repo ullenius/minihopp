@@ -1,23 +1,22 @@
 /**
  * 
  * This is where the magic happens
- * 
- * random generation of strings (not in beta version)
  * creating ShortURL-objects etc...
  * 
  * 
  */
-package se.anosh.minihopp;
+package se.anosh.minihopp.controller;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
-import se.anosh.minihopp.dataaccess.ShortURLNotFoundException;
-import se.anosh.minihopp.dataaccess.URLdataAccess;
+import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import se.anosh.minihopp.domain.ShortURL;
+import se.anosh.minihopp.dataaccess.api.ShortURLDataAccess;
 
 /**
  *
@@ -25,15 +24,16 @@ import se.anosh.minihopp.domain.ShortURL;
  */
 @Default
 @Stateless
-public class ShortURLManager implements ShortURLService {
+public class ShortURLController implements ShortURLService {
 
     @Inject
-    URLdataAccess dao;
+    ShortURLDataAccess dao;
     
     @Override
-    public void addURL(URL url) {
+    public Optional<Integer> addURL(String url) throws MalformedURLException {
+        
         ShortURL mini = new ShortURL(url);
-        dao.add(mini);
+        return dao.add(mini);
     }
 
     @Override
@@ -52,16 +52,19 @@ public class ShortURLManager implements ShortURLService {
     }
 
     /**
-     * Returns the short-form URL based on the long URL
-     * This call is used when creating new entries in the
-     * database in order to return a JSON to the client
-     * sending the POST-request
      * 
+     * Reverse name lookup. For where you have the long
+     * URL (of an existing entry) but not the shorthand-version.
+     * 
+     * This is used mainly by the REST-service layer when
+     * creating new entries and returning a JSON-object to
+     * the client.
+
      * @param url
      * @return 
      */
     @Override
-    public ShortURL findShortURLName(String url) {
+    public ShortURL findShortURLName(String url) throws ShortURLNotFoundException {
         return dao.findByName(url);
     }
     

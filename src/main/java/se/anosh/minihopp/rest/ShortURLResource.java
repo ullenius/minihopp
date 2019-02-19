@@ -8,7 +8,8 @@ package se.anosh.minihopp.rest;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
+import java.util.Objects;
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -19,8 +20,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import se.anosh.minihopp.ShortURLService;
-import se.anosh.minihopp.dataaccess.ShortURLNotFoundException;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import se.anosh.minihopp.controller.ShortURLService;
+import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import se.anosh.minihopp.domain.ShortURL;
 
 /**
@@ -31,18 +34,32 @@ import se.anosh.minihopp.domain.ShortURL;
 @Path("/minihopp")
 public class ShortURLResource {
     
-    // error message in JSON-format
-    final static private String ERROR_MESSAGE = "{\"error\":\"invalid URL\"}";
+    // HTTP-status codes
+    private static final int BAD_REQUEST = 400;
+    private static final int NOT_FOUND = 404;
+    private static final int INTERNAL_SERVER_ERROR = 500;
+    
+    
     @Inject
     private ShortURLService service;
     
-    
+    /**
+     * 
+     * @return 
+     */
     @GET
     @Produces({"application/JSON"})
     public Response getNoArgument() {
-        return Response.status(404).build(); // not found
+        return Response.status(BAD_REQUEST).entity(new ErrorMessage("no URL provided")).build();
     }
     
+    /**
+     * Returns full URL as HTTP-redirect Response-object
+     * based on path-parameter obtained from user.
+     * 
+     * @param shortURL
+     * @return 
+     */
     @GET
     @Produces({"application/JSON"})
     @Path("{shortURL}")
@@ -50,11 +67,14 @@ public class ShortURLResource {
         
         try {
             ShortURL result = service.findURL(shortURL);
-            URI uri = new URI(result.getOriginal());
+            URI uri = new URI(result.getLongFormatURL());
             return Response.seeOther(uri).build();
             
-        } catch (ShortURLNotFoundException | URISyntaxException ex) {
-            return Response.ok(ERROR_MESSAGE).build();
+        } catch (ShortURLNotFoundException ex) {
+            return Response.status(NOT_FOUND).entity(new ErrorMessage("URL not found")).build();
+        } catch (URISyntaxException er) {
+             //URI stored in database is invalid, data is corrupted
+            return Response.status(INTERNAL_SERVER_ERROR).entity(new ErrorMessage("Database corrupted")).build();
         }
     }
     
@@ -65,26 +85,56 @@ public class ShortURLResource {
      * 
      * @param url
      * @return
-     * @throws MalformedURLException 
      */
     @POST
     @Produces({"application/JSON"})
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response postURL(String url) throws MalformedURLException {
+    public Response postURL(final String url) {
         
-        // Checks if the URL is valid, if so adds it to the database
         // Need to add checking if it already exists
         try {
-            URL address = new URL(url);
-            service.addURL(address);
-            return Response.ok(service.findShortURLName(url)).build();
+            Optional<Integer> key = service.addURL(url); // adds it
+            if (key.isPresent()) { // if we got an id-value returned
+                ShortURL createdURL = new ShortURL(key.get(), url);
+                return Response.ok(createdURL).build();
+            } else {
+                return Response.ok(service.findShortURLName(url)).build(); //otherwise, we have to look in the database
+            }
         } catch (MalformedURLException ex) {
-            return Response.ok(ERROR_MESSAGE).build();
+            return Response.status(BAD_REQUEST).entity(new ErrorMessage("invalid URL")).build();
         }
-        
+        catch (ShortURLNotFoundException eu) {
+            // something went terribly wrong
+            // we added the url but we can't find it when fetching it from
+            // the database. 500 - internal server error
+            return Response.status(INTERNAL_SERVER_ERROR).entity(new ErrorMessage("database corrupted")).build();
+        }
         
     }
     
-
+    /**
+     * This class' sole purpose is to contain
+     * an error String. Then the whole object
+     * is converted into XML or JSON by JAX-RS.
+     * 
+     * Rather than having to hard-code JSON
+     * or XML.
+     * 
+     * This class is immutable and uses dependency injection
+     * Item #5 Effective Java (3rd edition). Joshua Bloch
+     */
+    @XmlRootElement
+    private class ErrorMessage {
+        
+        @XmlElement(name = "error")
+        final private String message;
+        public ErrorMessage(String message) {
+            this.message = Objects.requireNonNull(message);
+        }
+        @Override
+        public String toString() {
+            return "message: " + message;
+        }
+    }
     
 }

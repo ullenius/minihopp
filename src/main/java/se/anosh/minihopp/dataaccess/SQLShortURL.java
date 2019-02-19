@@ -6,13 +6,17 @@ package se.anosh.minihopp.dataaccess;
  * 
  */
 
+import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import se.anosh.minihopp.domain.ShortURL;
+import se.anosh.minihopp.dataaccess.api.ShortURLDataAccess;
 
 /**
  *
@@ -20,7 +24,7 @@ import se.anosh.minihopp.domain.ShortURL;
  */
 @Default
 @Stateless
-public class URLdataAccessImplementation implements URLdataAccess {
+public class SQLShortURL implements ShortURLDataAccess {
 
     @PersistenceContext
     private EntityManager em;
@@ -31,8 +35,9 @@ public class URLdataAccessImplementation implements URLdataAccess {
     }
 
     @Override
-    public void add(ShortURL url) {
+    public Optional<Integer> add(ShortURL url) {
         em.persist(url);
+        return Optional.empty(); // not supported by relational databases
     }
 
     @Override
@@ -51,16 +56,15 @@ public class URLdataAccessImplementation implements URLdataAccess {
      * TODO: Replace this with Optional<ShortURL>
      * or throw ShortURLNotFoundException
      */
-    public ShortURL findByName(String url) {
+    public ShortURL findByName(String url) throws ShortURLNotFoundException {
         
-        Query myQuery = em.createQuery("SELECT u FROM ShortURL u WHERE u.original LIKE :param");
-        myQuery.setParameter("param", url.toString());
+        Query myQuery = em.createQuery("SELECT u FROM ShortURL u WHERE u.longFormatURL LIKE :param");
+        myQuery.setParameter("param", url);
         List<ShortURL> resultList = myQuery.getResultList();
         if (resultList.isEmpty())
-            return null;
+            throw new ShortURLNotFoundException("URL with name: " + url + " was not found in database");
         return resultList.get(0);
     }
-
 
     @Override
     public List<ShortURL> findAll() {
