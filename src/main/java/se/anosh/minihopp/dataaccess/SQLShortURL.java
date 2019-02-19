@@ -10,6 +10,7 @@ import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import javax.ejb.Stateless;
+import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

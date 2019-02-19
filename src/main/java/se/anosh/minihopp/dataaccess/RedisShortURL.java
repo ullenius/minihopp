@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.ejb.Stateless;
 import redis.clients.jedis.Jedis;
 import javax.enterprise.inject.Alternative;
+import javax.enterprise.inject.Default;
 import se.anosh.minihopp.domain.ShortURL;
 import se.anosh.minihopp.dataaccess.api.ShortURLDataAccess;
 
@@ -26,6 +27,8 @@ import se.anosh.minihopp.dataaccess.api.ShortURLDataAccess;
 @Alternative
 @Stateless
 public class RedisShortURL implements ShortURLDataAccess {
+    
+    private static int counter = 1;
     
     private final String hostname;
     private int defaultExpiryTimeInSeconds;
@@ -55,19 +58,28 @@ public class RedisShortURL implements ShortURLDataAccess {
         }
     }
 
+    /**
+     * 
+     * This method ignores the provided id field
+     * in the parameter. Instead using only the class'
+     * internal static counter to generate ids at the DB level
+     * 
+     * @param newURL
+     * @return 
+     */
     @Override
     public Optional<Integer> add(ShortURL newURL) {
         
         String url = newURL.getLongFormatURL();
-        int rawKey = newURL.getPath();
-        String key = String.valueOf(rawKey);
+        String key = Integer.toString(counter);
         
         try (Jedis jedis = new Jedis(hostname)) {
             switchDb(jedis);
             jedis.set(key, url);
         }
         
-        return Optional.of(rawKey);
+        counter++; // increase id counter
+        return Optional.of(counter-1);
     }
 
     @Override
