@@ -25,7 +25,7 @@ public release was 2019-02-19.
 ```
 {
   "short_url": 2,
-  "original_url": "http://www.github.com/ullenius"
+  "original_url": "https://www.github.com/ullenius"
 }
 ```
 
