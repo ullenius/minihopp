@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import javax.ejb.Stateless;
 import redis.clients.jedis.Jedis;
@@ -55,9 +56,9 @@ public class RedisShortURL implements ShortURLDataAccess {
     }
 
     @Override
-    public void add(ShortURL newURL) {
+    public Optional<Integer> add(ShortURL newURL) {
         
-        String url = newURL.getOriginal();
+        String url = newURL.getLongFormatURL();
         int rawKey = newURL.getPath();
         String key = String.valueOf(rawKey);
         
@@ -66,6 +67,7 @@ public class RedisShortURL implements ShortURLDataAccess {
             jedis.set(key, url);
         }
         
+        return Optional.of(rawKey);
     }
 
     @Override

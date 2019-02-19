@@ -8,6 +8,7 @@ package se.anosh.minihopp.dataaccess;
 
 import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.persistence.EntityManager;
@@ -33,8 +34,9 @@ public class SQLShortURL implements ShortURLDataAccess {
     }
 
     @Override
-    public void add(ShortURL url) {
+    public Optional<Integer> add(ShortURL url) {
         em.persist(url);
+        return Optional.empty(); // not supported by relational databases
     }
 
     @Override

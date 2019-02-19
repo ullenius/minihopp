@@ -39,7 +39,7 @@ public class RedisTests {
         ShortURL url = new ShortURL();
         url.setPath(1336);
         try {
-            url.setOriginal(rawURL);
+            url.setLongFormatURL(rawURL);
             resource.add(url);
             
         } catch (MalformedURLException ex) {

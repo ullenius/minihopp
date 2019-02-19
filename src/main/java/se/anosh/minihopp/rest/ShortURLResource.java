@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -67,7 +68,7 @@ public class ShortURLResource {
         
         try {
             ShortURL result = service.findURL(shortURL);
-            URI uri = new URI(result.getOriginal());
+            URI uri = new URI(result.getLongFormatURL());
             return Response.seeOther(uri).build();
             
         } catch (ShortURLNotFoundException ex) {
@@ -89,12 +90,18 @@ public class ShortURLResource {
     @POST
     @Produces({"application/JSON"})
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response postURL(String url) {
+    public Response postURL(final String url) {
         
         // Need to add checking if it already exists
         try {
-            service.addURL(url);
-            return Response.ok(service.findShortURLName(url)).build();
+            Optional<Integer> key = service.addURL(url); // adds it
+            
+            if (key.isPresent()) { // if we got an id-value returned
+                ShortURL createdURL = new ShortURL(key.get(), url);
+                return Response.ok(createdURL).build();
+            } else {        
+            return Response.ok(service.findShortURLName(url)).build(); //otherwise, we have to look in the database
+            }
         } catch (MalformedURLException ex) {
             return Response.status(BAD_REQUEST).entity(new ErrorMessage("invalid URL")).build();
         }

@@ -31,20 +31,22 @@ public class ShortURL implements Serializable {
     
     @XmlElement(name = "original_url")
     @Column(unique=true, nullable=false, length=100)
-    private String original;
+    private String longFormatURL;
     
     public ShortURL() { // empty constructor required by JPA
-        original = "default";
+        longFormatURL = "https://www.github.com/ullenius";
     }
     
-    public ShortURL(URL url) {
-        original = url.toString();
+    public ShortURL(String url) throws MalformedURLException {
+        
+       URL checkValidFormat = new URL(url); 
+       longFormatURL = url;
     }
     
     // TODO: refactor this later, use URL instead and add factory stuff
     // in redis implementation code to keep this clean
     public ShortURL(int path, String original) { // used by redis
-        this.original = original;
+        this.longFormatURL = original;
         this.path = path;
     }
 
@@ -52,24 +54,24 @@ public class ShortURL implements Serializable {
         this.path = path;
     }
 
-    public void setOriginal(String original) throws MalformedURLException {
+    public void setLongFormatURL(String longFormatURL) throws MalformedURLException {
         
-        URL validURL = new URL(original);
-        this.original = original;
+        URL validURL = new URL(longFormatURL);
+        this.longFormatURL = longFormatURL;
     }
 
     public int getPath() {
         return path;
     }
 
-    public String getOriginal() {
-        return original;
+    public String getLongFormatURL() {
+        return longFormatURL;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 71 * hash + Objects.hashCode(this.original);
+        hash = 71 * hash + Objects.hashCode(this.longFormatURL);
         return hash;
     }
 
@@ -85,12 +87,12 @@ public class ShortURL implements Serializable {
             return false;
         }
         final ShortURL other = (ShortURL) obj;
-        return (this.original.equalsIgnoreCase(other.getOriginal()));
+        return (this.longFormatURL.equalsIgnoreCase(other.getLongFormatURL()));
     }
 
     @Override
     public String toString() {
-        return "ShortURL{" + "path=" + path + ", original=" + original + '}';
+        return "ShortURL{" + "path=" + path + ", original=" + longFormatURL + '}';
     }
     
     
