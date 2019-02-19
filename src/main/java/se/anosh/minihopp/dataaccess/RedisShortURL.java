@@ -9,7 +9,9 @@ package se.anosh.minihopp.dataaccess;
 
 import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import java.util.List;
+import java.util.Objects;
 import javax.ejb.Stateless;
+import redis.clients.jedis.Jedis;
 import javax.enterprise.inject.Alternative;
 import se.anosh.minihopp.domain.ShortURL;
 import se.anosh.minihopp.dataaccess.api.ShortURLDataAccess;
@@ -22,10 +24,35 @@ import se.anosh.minihopp.dataaccess.api.ShortURLDataAccess;
 @Stateless
 public class RedisShortURL implements ShortURLDataAccess {
     
+    private final String hostname;
+    private int defaultExpiryTimeInSeconds;
+    private int databaseId;
+    
+    public RedisShortURL() {
+        hostname = "localhost";
+        databaseId = 0; // default
+    }
+    
+    public RedisShortURL(String hostname, int databaseId) {
+        this.hostname = Objects.requireNonNull(hostname, "Hostname cannot be set to null");
+        this.databaseId = databaseId;
+    }
+    
+    private void switchDb(Jedis jedis) {
+        jedis.select(databaseId);
+    }
+    
 
     @Override
     public void remove(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        try (Jedis jedis = new Jedis(hostname)) {
+            switchDb(jedis);
+            
+            String key = String.valueOf(id);
+            jedis.del(key);
+            
+        }
     }
 
     @Override
