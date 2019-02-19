@@ -95,12 +95,11 @@ public class ShortURLResource {
         // Need to add checking if it already exists
         try {
             Optional<Integer> key = service.addURL(url); // adds it
-            
             if (key.isPresent()) { // if we got an id-value returned
                 ShortURL createdURL = new ShortURL(key.get(), url);
                 return Response.ok(createdURL).build();
-            } else {        
-            return Response.ok(service.findShortURLName(url)).build(); //otherwise, we have to look in the database
+            } else {
+                return Response.ok(service.findShortURLName(url)).build(); //otherwise, we have to look in the database
             }
         } catch (MalformedURLException ex) {
             return Response.status(BAD_REQUEST).entity(new ErrorMessage("invalid URL")).build();
@@ -109,7 +108,7 @@ public class ShortURLResource {
             // something went terribly wrong
             // we added the url but we can't find it when fetching it from
             // the database. 500 - internal server error
-            return Response.status(INTERNAL_SERVER_ERROR).entity(new ErrorMessage("database corrupted")).build(); 
+            return Response.status(INTERNAL_SERVER_ERROR).entity(new ErrorMessage("database corrupted")).build();
         }
         
     }
