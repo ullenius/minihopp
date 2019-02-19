@@ -2,7 +2,7 @@ package se.anosh.minihopp.dataaccess;
 
 
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -21,7 +21,7 @@ public class RedisTests {
     @Before
     public void setup() {
         
-        resource = new RedisShortURL();
+        resource = new RedisShortURL("localhost",2);
     }
     
     @Test(expected = ShortURLNotFoundException.class)
@@ -53,6 +53,7 @@ public class RedisTests {
         
         try {
         ShortURL result = resource.findbyId(1336);
+        System.out.println("testFindExistingById: ");
         System.out.println(result);
         } catch (ShortURLNotFoundException ex) {
             fail();
@@ -64,8 +65,21 @@ public class RedisTests {
     public void testFindNonExistingById() throws ShortURLNotFoundException {
         
         resource.findbyId(666);
+    }
+    
+    /**
+     * Test fails if there are no entries found in the database
+     * 
+     */
+    @Test
+    public void testFindAllShortURLsInDataBase() {
         
+        List<ShortURL> listOfAll = resource.findAll();
+        System.out.println("Running testFindAllShortURLsInDatabase:");
+        for (ShortURL url : listOfAll)
+            System.out.println(url);
         
+        assertFalse(listOfAll.isEmpty());
     }
     
 }

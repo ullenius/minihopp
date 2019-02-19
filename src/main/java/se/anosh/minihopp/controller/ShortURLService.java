@@ -1,6 +1,6 @@
 package se.anosh.minihopp.controller;
 
-import java.net.URL;
+import java.net.MalformedURLException;
 import java.util.List;
 import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import se.anosh.minihopp.domain.ShortURL;
@@ -11,7 +11,7 @@ import se.anosh.minihopp.domain.ShortURL;
  */
 public interface ShortURLService {
     
-    public void addURL(URL url);
+    public void addURL(String url) throws MalformedURLException;
     public void deleteURL(int id);
     public ShortURL findURL(int id) throws ShortURLNotFoundException;
     public List<ShortURL> listAllURLs(); // debug method?

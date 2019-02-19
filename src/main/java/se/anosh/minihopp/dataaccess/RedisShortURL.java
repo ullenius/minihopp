@@ -7,9 +7,11 @@
  */
 package se.anosh.minihopp.dataaccess;
 
+import java.util.ArrayList;
 import se.anosh.minihopp.dataaccess.exception.ShortURLNotFoundException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.ejb.Stateless;
 import redis.clients.jedis.Jedis;
 import javax.enterprise.inject.Alternative;
@@ -89,7 +91,25 @@ public class RedisShortURL implements ShortURLDataAccess {
 
     @Override
     public List<ShortURL> findAll() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        List<ShortURL> myList = new ArrayList<>();
+        
+        try (Jedis jedis = new Jedis(hostname)) {
+            switchDb(jedis);
+           
+            Set<String> allKeys = jedis.keys("*");
+            
+            for (String key : allKeys) {
+                
+                int urlKey = Integer.parseInt(key);
+                String value = jedis.get(key);
+                myList.add(new ShortURL(urlKey, value));
+            }
+            
+            return myList;
+        }
+        
+        
     }
     
 }

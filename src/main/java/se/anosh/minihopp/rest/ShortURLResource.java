@@ -91,11 +91,9 @@ public class ShortURLResource {
     @Consumes(MediaType.TEXT_PLAIN)
     public Response postURL(String url) {
         
-        // Checks if the URL is valid, if so adds it to the database
         // Need to add checking if it already exists
         try {
-            URL address = new URL(url);
-            service.addURL(address);
+            service.addURL(url);
             return Response.ok(service.findShortURLName(url)).build();
         } catch (MalformedURLException ex) {
             return Response.status(BAD_REQUEST).entity(new ErrorMessage("invalid URL")).build();

@@ -7,6 +7,7 @@
  */
 package se.anosh.minihopp.controller;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -28,9 +29,12 @@ public class ShortURLController implements ShortURLService {
     ShortURLDataAccess dao;
     
     @Override
-    public void addURL(URL url) {
-        ShortURL mini = new ShortURL(url);
+    public void addURL(String url) throws MalformedURLException {
+        
+        URL value = new URL(url);
+        ShortURL mini = new ShortURL(value);
         dao.add(mini);
+        
     }
 
     @Override

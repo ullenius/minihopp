@@ -90,7 +90,7 @@ public class ShortURL implements Serializable {
 
     @Override
     public String toString() {
-        return original;
+        return "ShortURL{" + "path=" + path + ", original=" + original + '}';
     }
     
     
