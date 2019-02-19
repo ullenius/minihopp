@@ -1,6 +1,7 @@
 package se.anosh.minihopp.domain;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Objects;
 import javax.persistence.Column;
@@ -39,6 +40,23 @@ public class ShortURL implements Serializable {
     public ShortURL(URL url) {
         original = url.toString();
     }
+    
+    // TODO: refactor this later, use URL instead and add factory stuff
+    // in redis implementation code to keep this clean
+    public ShortURL(int path, String original) { // used by redis
+        this.original = original;
+        this.path = path;
+    }
+
+    public void setPath(int path) {
+        this.path = path;
+    }
+
+    public void setOriginal(String original) throws MalformedURLException {
+        
+        URL validURL = new URL(original);
+        this.original = original;
+    }
 
     public int getPath() {
         return path;
@@ -69,5 +87,11 @@ public class ShortURL implements Serializable {
         final ShortURL other = (ShortURL) obj;
         return (this.original.equalsIgnoreCase(other.getOriginal()));
     }
+
+    @Override
+    public String toString() {
+        return original;
+    }
+    
     
 }
