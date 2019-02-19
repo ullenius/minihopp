@@ -57,7 +57,7 @@ public class SQLShortURL implements ShortURLDataAccess {
      */
     public ShortURL findByName(String url) throws ShortURLNotFoundException {
         
-        Query myQuery = em.createQuery("SELECT u FROM ShortURL u WHERE u.original LIKE :param");
+        Query myQuery = em.createQuery("SELECT u FROM ShortURL u WHERE u.longFormatURL LIKE :param");
         myQuery.setParameter("param", url);
         List<ShortURL> resultList = myQuery.getResultList();
         if (resultList.isEmpty())
