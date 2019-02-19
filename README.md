@@ -21,6 +21,13 @@ public release was 2019-02-19.
 
 `GET [project_url]/minihopp/short_url_id` to be re-directed to the corresponding URL.
 
+### JSON format:
+```
+{
+  "short_url": 2,
+  "original_url": "http://www.github.com/ullenius"
+}
+```
 
 ## Development
 MiniHopp uses various tools to ease the development process
