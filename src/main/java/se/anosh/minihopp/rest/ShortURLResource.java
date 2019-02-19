@@ -112,7 +112,6 @@ public class ShortURLResource {
             return Response.status(INTERNAL_SERVER_ERROR).entity(new ErrorMessage("database corrupted")).build(); 
         }
         
-        
     }
     
     /**
@@ -123,7 +122,8 @@ public class ShortURLResource {
      * Rather than having to hard-code JSON
      * or XML.
      * 
-     * This class is immutable by using dependency injection.
+     * This class is immutable and uses dependency injection
+     * Item #5 Effective Java (3rd edition). Joshua Bloch
      */
     @XmlRootElement
     private class ErrorMessage {

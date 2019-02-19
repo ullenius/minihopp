@@ -30,7 +30,7 @@ public class ShortURL implements Serializable {
     private int path; // this value is set by the database
     
     @XmlElement(name = "original_url")
-    @Column(unique=true, nullable=false, length=100)
+    @Column(name="original", unique=true, nullable=false, length=100)
     private String longFormatURL;
     
     public ShortURL() { // empty constructor required by JPA

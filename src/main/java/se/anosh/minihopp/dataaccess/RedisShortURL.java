@@ -98,20 +98,15 @@ public class RedisShortURL implements ShortURLDataAccess {
         
         try (Jedis jedis = new Jedis(hostname)) {
             switchDb(jedis);
-           
             Set<String> allKeys = jedis.keys("*");
             
             for (String key : allKeys) {
-                
                 int urlKey = Integer.parseInt(key);
                 String value = jedis.get(key);
                 myList.add(new ShortURL(urlKey, value));
             }
-            
             return myList;
         }
-        
-        
     }
     
 }

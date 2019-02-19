@@ -65,7 +65,6 @@ public class SQLShortURL implements ShortURLDataAccess {
         return resultList.get(0);
     }
 
-
     @Override
     public List<ShortURL> findAll() {
         
