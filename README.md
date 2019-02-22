@@ -1,14 +1,13 @@
 # MiniHopp URL Shortener
 
-A Java URL Shortener microservice. SQL and NoSQL (redis) support.
+A Java URL Shortener microservice. SQL and NoSQL ([Redis](https://github.com/redis)) support.
 
 It's my implementation of freeCodeCamp's project.
 
-MiniHopp is named after Lille Skutt's son in the Swedish comic Bamse. First
-public release was 2019-02-19.
+MiniHopp:rabbit: is named after Lille Skutt's son in the Swedish comic Bamse.
 
 ## Some features
-* 100% Java
+* 100% Java :coffee:
 * REST web microservice
 * Supports SQL (using JPA and object-relational mapping)
 * NoSQL support (using Redis)
@@ -35,6 +34,7 @@ MiniHopp uses various tools to ease the development process
 * Jedis is used for Redis-support
 * Java EE 8 is used for SQL (EclipseLink)
 * RestEasy is used for JAX-RS
+* First release was 2019-02-19
 
 ## Building
 Run
